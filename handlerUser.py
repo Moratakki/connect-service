@@ -1,31 +1,10 @@
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
-from aiogram.utils import executor
-
+from aiogram import types, Dispatcher
+from initBot import dp, bot, running, status
 import json
 import string
 
-'''==================================================| INITIALIZING |=================================================='''
 
-
-bot = Bot(token="5513945226:AAGqopdbfAxZXqAkacz27igq7KvrTISQpFw")
-dp = Dispatcher(bot)
-running = False
-status = False
-
-
-async def on_startup(_):
-    print('\n>>>>>| Bot lauched succesfully. |<<<<<\n')
-
-
-async def on_shutdown(_):
-    print('\n>>>>>| Bot has been shuted down. |<<<<<\n')
-
-
-'''====================================================| USER-SIDE |===================================================='''
-
-
-@dp.message_handler(commands=['start', 'help'])
+# // @dp.message_handler(commands=['start', 'help'])
 async def first_interaction(message: types.Message):
     '''On start-button press.'''
     global running
@@ -36,7 +15,7 @@ async def first_interaction(message: types.Message):
     running = True
 
 
-@dp.message_handler(commands='Абитуриент')
+# // @dp.message_handler(commands='Абитуриент')
 async def applicant_init(message: types.Message):
     global status
     if not status:
@@ -47,8 +26,8 @@ async def applicant_init(message: types.Message):
     status = True
 
 
-@dp.message_handler(commands='Волонтёр')
-async def volunteer(message: types.Message):
+# // @dp.message_handler(commands='Волонтёр')
+async def volunteer_init(message: types.Message):
     global status
     if not status:
         await message.answer('Определён волонтёр.')
@@ -58,7 +37,7 @@ async def volunteer(message: types.Message):
     status = True
 
 
-@dp.message_handler()
+# // @dp.message_handler()
 async def other_messages(message: types.Message):
     if {word.lower().translate(str.maketrans('', '', string.punctuation)) for word in message.text.split(' ')}\
             .intersection(set(json.load(open('swears.json')))) != set():
@@ -68,8 +47,11 @@ async def other_messages(message: types.Message):
         await message.answer('Пока что бот вас не понимает.')
 
 
-'''====================================================| LAUNCH |===================================================='''
+'''===================================| HANDLERS REGISTER |==================================='''
 
 
-executor.start_polling(dp, skip_updates=True,
-                       on_startup=on_startup, on_shutdown=on_shutdown)
+def register_handlers(dp: Dispatcher):
+    dp.register_message_handler(first_interaction, commands=['start', 'help'])
+    dp.register_message_handler(applicant_init, commands=['Абитуриент'])
+    dp.register_message_handler(volunteer_init, commands=['Волонтёр'])
+    dp.register_message_handler(other_messages)

@@ -1,7 +1,7 @@
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
 
-bot = Bot(token="5513945226:AAGqopdbfAxZXqAkacz27igq7KvrTISQpFw")
+bot = Bot(token="5513945226:AAHctT3rN4qq-AgTmb3PHmFVk47pgbvSk40")
 dp = Dispatcher(bot)
-running = False
-status = False
+running = [False]
+userStatus = [False]

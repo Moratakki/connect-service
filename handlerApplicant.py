@@ -1,5 +1,6 @@
 from aiogram import types, Dispatcher
 from aiogram.types import ReplyKeyboardRemove
+from aiogram.dispatcher.filters import Text
 from initBot import userStatus
 
 
@@ -7,7 +8,7 @@ from initBot import userStatus
 async def applicant_init(message: types.Message):
     global userStatus
     if not userStatus[-1]:
-        await message.answer('Определён абитуриент.', reply_markup=ReplyKeyboardRemove())
+        await message.answer('Определён абитуриент.')
         #! have to initialize registration
         userStatus.append(True)
     else:
@@ -15,4 +16,4 @@ async def applicant_init(message: types.Message):
 
 
 def register_applicant_handlers(dp: Dispatcher):
-    dp.register_message_handler(applicant_init, commands=['Абитуриент'])
+    dp.register_message_handler(applicant_init, Text(equals="Абитуриент", ignore_case=True))

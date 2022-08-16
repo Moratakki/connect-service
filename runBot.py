@@ -5,6 +5,7 @@ import handlerApplicant
 import handlerVolunteer
 import handlerOther
 
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -20,5 +21,4 @@ handlerApplicant.register_applicant_handlers(dp)
 handlerOther.register_other_handlers(dp)
 
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True,
-                           on_startup=on_startup, on_shutdown=on_shutdown)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup, on_shutdown=on_shutdown)

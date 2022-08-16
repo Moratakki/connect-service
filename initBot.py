@@ -1,7 +1,10 @@
 from aiogram import Bot
 from aiogram.dispatcher import Dispatcher
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+import os
 
-bot = Bot(token="5513945226:AAHctT3rN4qq-AgTmb3PHmFVk47pgbvSk40")
-dp = Dispatcher(bot)
+storage = MemoryStorage()
+bot = Bot(token=os.environ['TOKEN'])
+dp = Dispatcher(bot, storage=storage)
 running = [False]
 userStatus = [False]

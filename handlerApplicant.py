@@ -1,18 +1,18 @@
 from aiogram import types, Dispatcher
-from aiogram.types import ReplyKeyboardRemove
 from aiogram.dispatcher.filters import Text
-from initBot import userStatus
+import initBot
+
 
 
 # // @dp.message_handler(commands='Абитуриент')
 async def applicant_init(message: types.Message):
-    global userStatus
-    if not userStatus[-1]:
-        await message.answer('Определён абитуриент.')
-        #! have to initialize registration
-        userStatus.append(True)
+    inApplicantsDatabase = initBot.crsr.execute("SELECT TelegramID FROM applicants WHERE TelegramID = {}".format(message.from_user.id)).fetchone()
+    inVolunteersDatabase = initBot.crsr.execute("SELECT TelegramID FROM volunteers WHERE TelegramID = {}".format(message.from_user.id)).fetchone()
+    if inApplicantsDatabase or inVolunteersDatabase:
+        await message.answer('Вы не можете переопределить свой статус, так как уже находитесь в базе.')
     else:
-        await message.answer('Вы уже выбрали свой статус')
+        await message.answer('Определён абитуриент.')
+    #! have to initialize registration
 
 
 def register_applicant_handlers(dp: Dispatcher):

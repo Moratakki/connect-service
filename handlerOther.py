@@ -1,17 +1,11 @@
 from aiogram import types, Dispatcher
-from initBot import running
-from UI import statusDefiningButtons
+import initBot
+from userButtons import statusDefiningButtons
 
 
 # // @dp.message_handler(commands=['start', 'help'])
 async def first_interaction(message: types.Message):
-    '''On start-button press.'''
-    global running
-    if not running[-1]:
-        await message.answer('Добро пожаловать в сервис Коннект. Пожалуйста, определите ваш статус.', reply_markup=statusDefiningButtons)
-        running.append(True)
-    else:
-        await message.answer('Вы уже начали взаимодействие с ботом.')
+    await message.answer('Добро пожаловать в сервис Коннект. Пожалуйста, определите ваш статус.', reply_markup=statusDefiningButtons)
 
 
 # // @dp.message_handler()
